@@ -38,8 +38,16 @@ public class MouseListener implements MouseHandler<Item> {
 	public void mouseDrop(List<Item> arg0, KeyPress arg1) {
 		System.out.println("Drag& Drop :" + dragList + " => " + arg0 + " using " + arg1.toString());
 		for (Item item : dragList) {
-			item.setObjective(arg0.get(0));
-		}
+			/*
+			 * 
+			 */
+			try {
+				item.setObjective(arg0.get(0));
+			}catch(Exception e) {
+				System.out.println("you can't move a ship into an empty area");
+			}
+			}
+			
 	}
 
 	@Override

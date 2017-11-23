@@ -25,11 +25,26 @@ abstract class Item {
 		return width;
 	}
 
-	public abstract void move();
+	/*
+	 * we remove the abstract look of the move method here so that only the
+	 * Spaceship class can benefit from it
+	 */
+
+	// public abstract void move();
+	public void move() {
+
+	}
 
 	public abstract void draw(Graphics2D arg0);
 
-	public abstract void setObjective(Item o);
+	/*
+	 * Idem
+	 */
+	// public abstract void setObjective(Item o);
+	public void setObjective(Item item) {
+
+	}
 
 	public abstract boolean contains(Point2D p);
+
 }
