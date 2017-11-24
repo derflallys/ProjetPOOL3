@@ -35,17 +35,17 @@ public class MouseListener implements MouseHandler<Item> {
 	}
 
 	@Override
-	public void mouseDrop(List<Item> arg0, KeyPress arg1) {
+	public void mouseDrop(List<Item> arg0, KeyPress arg1)throws IndexOutOfBoundsException {
 		System.out.println("Drag& Drop :" + dragList + " => " + arg0 + " using " + arg1.toString());
 		for (Item item : dragList) {
 			/*
 			 * 
 			 */
-			try {
-				item.setObjective(arg0.get(0));
-			}catch(Exception e) {
-				System.out.println("you can't move a ship into an empty area");
-			}
+				try {
+					item.setObjective(arg0.get(0));
+				}catch(IndexOutOfBoundsException e) {
+					System.out.println("you can't move a ship into an empty area");
+				}
 			}
 			
 	}

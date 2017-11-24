@@ -7,8 +7,9 @@ import java.awt.geom.Point2D;
 class SpaceShip extends Item {
 
 	private Item objective;
+	private Color color;
 
-	public SpaceShip(double x, double y, int w) {
+	public SpaceShip(double x, double y, int w,Color color) {
 		super(x, y, w);
 		objective = this;
 	}
@@ -53,7 +54,7 @@ class SpaceShip extends Item {
 	public void draw(Graphics2D arg0) {
 		Point2D pos = this.center;
 		int x = (int) pos.getX(), y = (int) pos.getY(), w = this.getWidth();
-		arg0.setColor(Color.MAGENTA);
+		arg0.setColor(this.color);
 		arg0.fillRect(x - w / 2, y - w / 2, w, w);
 	}
 }
