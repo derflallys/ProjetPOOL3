@@ -1,6 +1,7 @@
 package simpleUIApp;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -14,19 +15,33 @@ public class Main {
 		 * Randomly position 25 Ships in the Arena zone (defined afterwards)
 		 */
 
+		int x,y;
 		for (int i = 0; i < 4; i++) {
+		    x=random.nextInt(350);
+		    y=random.nextInt(450);
+            if(!testItemList.isEmpty())
+            {
 
-			testItemList.add(new Planet(random.nextInt(350),random.nextInt(450),40,10));
+                for (int j = 0;j <testItemList.size() ; j++) {
+                    while ((x==testItemList.get(j).getLocation().getX() &&  y==testItemList.get(j).getLocation().getY() ) || testItemList.get(j).contains(new Point2D.Double(x,y)) || testItemList.get(j).contains(new Point2D.Double(x,y)))
+                    {
+                        x=random.nextInt(350);
+                        y=random.nextInt(450);
+                    }
+                }
+            }
+
+			testItemList.add(new Planet(x,y,40,10));
 		}
 
-		for (int i = 0; i <4 ; i++) {
+		for (int i = 0; i <testItemList.size() ; i++) {
 
 			if(testItemList.get(i) instanceof Planet)
 			{
                 if(!Color.black.equals(((Planet) testItemList.get(i)).getPlayer()))
                 {
                     ((Planet) testItemList.get(i)).createShapeShip(testItemList);
-                    System.out.println(i);
+
                 }
 
 			}

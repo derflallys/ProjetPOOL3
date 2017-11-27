@@ -12,6 +12,7 @@ class SpaceShip extends Item {
 	public SpaceShip(double x, double y, int w,Color color) {
 		super(x, y, w);
 		objective = this;
+		this.color=color;
 	}
 
 	public void setObjective(Item o) {
@@ -27,6 +28,10 @@ class SpaceShip extends Item {
 	@Override
 	public boolean contains(Point2D p) {
 		return squareDistance(this.center, p) <= (getWidth() / 2) * (getWidth() / 2);
+	}
+
+	public Color getColor() {
+		return color;
 	}
 
 	public void move() {
@@ -46,6 +51,7 @@ class SpaceShip extends Item {
 			}
 			center.setLocation(newx, newy);
 		} else {
+
 			objective = this;
 		}
 	}
@@ -56,5 +62,10 @@ class SpaceShip extends Item {
 		int x = (int) pos.getX(), y = (int) pos.getY(), w = this.getWidth();
 		arg0.setColor(this.color);
 		arg0.fillRect(x - w / 2, y - w / 2, w, w);
+	}
+
+	@Override
+	public String toString() {
+		return "SpaceShip "+toStringColor(this.color);
 	}
 }

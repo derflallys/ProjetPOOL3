@@ -22,7 +22,7 @@ public class Run implements ApplicationRunnable<Item> {
 	}
 
 	@Override
-	public void run(final Arena<Item> arg0, Collection<? extends Item> arg1) {
+	public void run(final Arena<Item> arg0, Collection<Item> arg1) {
 		MouseListener mouseHandler = new MouseListener();
 
 		/*

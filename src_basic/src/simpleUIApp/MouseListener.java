@@ -42,7 +42,12 @@ public class MouseListener implements MouseHandler<Item> {
 			 * 
 			 */
 				try {
-					item.setObjective(arg0.get(0));
+					//item.setObjective(arg0.get(0));
+					if(item instanceof Planet)
+					{
+                        System.out.println("in");
+                        ((Planet) item).attak(dragList,arg0.get(0));
+					}
 				}catch(IndexOutOfBoundsException e) {
 					System.out.println("you can't move a ship into an empty area");
 				}

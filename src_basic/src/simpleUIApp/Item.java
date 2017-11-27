@@ -1,6 +1,6 @@
 package simpleUIApp;
 
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.awt.geom.Point2D;
 
 /**
@@ -46,5 +46,17 @@ abstract class Item {
 	}
 
 	public abstract boolean contains(Point2D p);
+
+	public static String toStringColor(Color color)
+	{
+
+		if (Color.black.equals(color))
+			return "BLACK";
+		if (Color.green.equals(color))
+			return "GREEN";
+		if(Color.blue.equals(color))
+			return "BLUE";
+		return String.valueOf(color);
+	}
 
 }
