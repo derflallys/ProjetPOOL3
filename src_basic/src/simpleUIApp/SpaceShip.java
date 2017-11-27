@@ -62,6 +62,7 @@ class SpaceShip extends Item {
 		int x = (int) pos.getX(), y = (int) pos.getY(), w = this.getWidth();
 		arg0.setColor(this.color);
 		arg0.fillRect(x - w / 2, y - w / 2, w, w);
+
 	}
 
 	@Override

@@ -12,6 +12,7 @@ abstract class Item {
 	protected final Point2D center;
 	private final int width;
 
+
 	public Item(double x, double y, int w) {
 		center = new Point2D.Double(x, y);
 		width = w;
@@ -32,6 +33,7 @@ abstract class Item {
 
 	// public abstract void move();
 	public void move() {
+
 
 	}
 

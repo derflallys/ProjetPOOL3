@@ -10,12 +10,13 @@ import java.util.Random;
 public class Planet extends Item {
 	private int numberSpaceShip;
     private static Color saveLast =null  ;
+    private Color player;
     private boolean attak=false;
     public Color getPlayer() {
         return player;
     }
 
-    private Color player;
+
 	public Planet(double x, double y, int w,int numberSpaceShip) {
 		super(x, y, w);
 		this.numberSpaceShip=numberSpaceShip;
@@ -88,7 +89,9 @@ public class Planet extends Item {
         for (int i = 0; i <this.numberSpaceShip ; i++) {
             x=random.nextInt(350);
             y=random.nextInt(450);
-            while ((x==this.getLocation().getX() &&  y==this.getLocation().getY() ) || squareDistance(this.getLocation(),new Point2D.Double(x,y))>2500 || this.contains(new Point2D.Double(x,y)))
+            while ((x==this.getLocation().getX() &&  y==this.getLocation().getY() ) ||
+                    squareDistance(this.getLocation(),new Point2D.Double(x,y))>2500 ||
+                    this.contains(new Point2D.Double(x,y)))
             {
                 x=random.nextInt(350);
                 y=random.nextInt(450);
@@ -116,7 +119,48 @@ public class Planet extends Item {
         }
     }
 
+    public void setNumberSpaceShip(int numberSpaceShip) {
+        this.numberSpaceShip = numberSpaceShip;
+    }
+
+    public void afterAttak(ArrayList<Item> item, Planet destination )
+    {
+
+        Random random = new Random();
+        int x,y;
+
+            if(this.getPlayer().equals(destination.getPlayer()))
+            {
+                destination.setNumberSpaceShip(numberSpaceShip++);
+
+            }else if(destination.getPlayer().equals(Color.black) || (!destination.getPlayer().equals(Color.black) && destination.numberSpaceShip==0))
+            {
+                destination.numberSpaceShip = numberSpaceShip;
+
+                    destination.player = this.getPlayer();
+
+                for (int i = 0; i <numberSpaceShip ; i++)
+                {
+                    x=random.nextInt(350);
+                    y=random.nextInt(450);
+
+                        while ((x==this.getLocation().getX() &&  y==this.getLocation().getY() ) || squareDistance(this.getLocation(),new Point2D.Double(x,y))>2500 || this.contains(new Point2D.Double(x,y)))
+                        {
+                            x=random.nextInt(350);
+                            y=random.nextInt(450);
+                        }
+                        item.add(new SpaceShip(x,y, this.getWidth()/4,this.player));
+                }
+
+            }else
+            {
+                destination.setNumberSpaceShip(numberSpaceShip--);
+            }
+
+
+        }
 
 
 
-}
+    }
+

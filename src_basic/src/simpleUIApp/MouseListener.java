@@ -38,9 +38,6 @@ public class MouseListener implements MouseHandler<Item> {
 	public void mouseDrop(List<Item> arg0, KeyPress arg1)throws IndexOutOfBoundsException {
 		System.out.println("Drag& Drop :" + dragList + " => " + arg0 + " using " + arg1.toString());
 		for (Item item : dragList) {
-			/*
-			 * 
-			 */
 				try {
 					//item.setObjective(arg0.get(0));
 					if(item instanceof Planet)
