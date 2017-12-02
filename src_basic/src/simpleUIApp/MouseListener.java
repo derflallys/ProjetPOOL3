@@ -8,7 +8,7 @@ import fr.ubordeaux.simpleUI.MouseHandler;
 
 public class MouseListener implements MouseHandler<Item> {
 
-	ArrayList<Item> dragList = new ArrayList<Item>();;
+	ArrayList<Item> dragList = new ArrayList<Item>();
 
 	public MouseListener() {
 		super();
@@ -39,12 +39,17 @@ public class MouseListener implements MouseHandler<Item> {
 		System.out.println("Drag& Drop :" + dragList + " => " + arg0 + " using " + arg1.toString());
 		for (Item item : dragList) {
 				try {
-					//item.setObjective(arg0.get(0));
 					if(item instanceof Planet)
-					{
-                        System.out.println("in");
-                        ((Planet) item).attak(dragList,arg0.get(0));
-					}
+                    {
+                        //item.setObjective(arg0.get(0));
+                        if(item instanceof Planet)
+                        {
+                            ((Planet) item).attak( arg0.get(0));
+                        }
+
+                    }
+
+
 				}catch(IndexOutOfBoundsException e) {
 					System.out.println("you can't move a ship into an empty area");
 				}

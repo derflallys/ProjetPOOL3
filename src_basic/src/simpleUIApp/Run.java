@@ -1,6 +1,7 @@
 package simpleUIApp;
 
 import java.util.Collection;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
@@ -29,7 +30,7 @@ public class Run implements ApplicationRunnable<Item> {
 		 * We build the graphical interface by adding the graphical component
 		 * corresponding to the Arena - by calling createComponent - to a JFrame.
 		 */
-		final JFrame frame = new JFrame("Test Arena");
+		final JFrame frame = new JFrame("Arena");
 
 		/*
 		 * This is our KeyHandler that will be called by the Arena in case of key events
@@ -57,9 +58,13 @@ public class Run implements ApplicationRunnable<Item> {
 				for (Item item : arg1) {
 					item.move();
 				}
+
+
 			}
 
+
 		});
+
 	}
 
 }

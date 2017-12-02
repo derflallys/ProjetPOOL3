@@ -8,11 +8,19 @@ class SpaceShip extends Item {
 
 	private Item objective;
 	private Color color;
+	private int speed;
+	private int timeProduction;
+	private int power;
 
-	public SpaceShip(double x, double y, int w,Color color) {
+
+
+	public SpaceShip(double x, double y, int w, Color color) {
 		super(x, y, w);
 		objective = this;
 		this.color=color;
+		this.speed = 10;
+		this.timeProduction = 5;
+		this.power = 1;
 	}
 
 	public void setObjective(Item o) {
@@ -32,6 +40,10 @@ class SpaceShip extends Item {
 
 	public Color getColor() {
 		return color;
+	}
+
+	public void setColor(Color color) {
+		this.color = color;
 	}
 
 	public void move() {
