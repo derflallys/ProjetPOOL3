@@ -1,5 +1,7 @@
 package simpleUIApp;
 
+import fr.ubordeaux.simpleUI.KeyPress;
+
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
@@ -12,7 +14,7 @@ public class Planet extends Item {
     private static Color saveLast =null  ;
     private Color player;
 
-
+    //System.identityHashCode(this); give me uniq id of my object
 
     public Color getPlayer() {
         return player;
@@ -48,7 +50,10 @@ public class Planet extends Item {
             this.numberSpaceShip=10;
         else
             this.numberSpaceShip=0;
-	}
+
+
+
+    }
 
 	private int randomColor()
 	{
@@ -69,6 +74,8 @@ public class Planet extends Item {
 		return rand.nextInt(3);
 
 	}
+    public void setObjective(Item item) {};
+    public void move() {};
 
 	public void draw(Graphics2D g) {
 		Point2D pl = this.center;
@@ -99,23 +106,23 @@ public class Planet extends Item {
 
 	}
 
-	public void createShapeShip(ArrayList<Item> item,Item objectif)
+	public void createShapeShip(ArrayList<Item> item, Item objectif, int nbescadron)
     {
         Random random = new Random();
         int x,y;
         SpaceShip spaceShip;
 
-        for (int i = 0; i <this.numberSpaceShip ; i++) {
-            x=random.nextInt(750);
-            y=random.nextInt(850);
+        for (int i = 0; i <nbescadron ; i++) {
+            x=random.nextInt(700);
+            y=random.nextInt(800);
             while ((x==this.getLocation().getX() &&  y==this.getLocation().getY() ) ||
                     squareDistance(this.getLocation(),new Point2D.Double(x,y))>2500 ||
                     this.contains(new Point2D.Double(x,y)))
             {
-                x=random.nextInt(750);
-                y=random.nextInt(850);
+                x=random.nextInt(700);
+                y=random.nextInt(800);
             }
-            spaceShip = new SpaceShip(x,y, this.getWidth()/4,this.player);
+            spaceShip = new SpaceShip(x,y, this.getWidth()/4,this.player,System.identityHashCode(this));
             spaceShip.setObjective(objectif);
             Item.collection.add(spaceShip);
             item.add(spaceShip);
@@ -129,63 +136,114 @@ public class Planet extends Item {
 
     @Override
     public String toString() {
-        return "Planet "+toStringColor(this.player)+" nbSpaceShip: "+this.numberSpaceShip;
+        return "Planet Code:"+System.identityHashCode(this)+"  " +toStringColor(this.player)+" nbSpaceShip: "+this.numberSpaceShip;
     }
 
-    public void attak(Item objectiv)
+    public void attak(Item objectiv,KeyPress action)
     {
 
         ArrayList<Item> spaceShips = new ArrayList<>();
-        ArrayList<Item> items = new ArrayList<>();
-        //je cree les vaisseaux lors d'un attak et je les mets dans un item puis je fais l'attak avec ceux la  ne pas faire le setobjectiv dans planet
+        int nbescadron=0;
+        boolean success=false;
 
-        if(!this.player.equals(Color.black))
-        {
-            for (int i = 0; i <this.numberSpaceShip ; i++) {
-                this.createShapeShip(spaceShips,objectiv);
+        for (Item item:Item.collection) {
+            if (item instanceof SpaceShip && !((SpaceShip) item).getObjective().contains(item.center) && ((SpaceShip) item).getIDPlanet()==System.identityHashCode(this))
+            {
+                item.setObjective(objectiv);
+                success=true;
             }
+
+
         }
-        this.afterAttak(items, (Planet) objectiv,spaceShips);
+
+        if(!this.player.equals(Color.black) && !success)
+        {
+
+            if(action.equals(KeyPress.CRTL))
+            {
+                //100 %
+                nbescadron=this.numberSpaceShip;
+            }
+            if (action.equals(KeyPress.ALTGR))
+            {
+                //75 %
+                nbescadron=(this.numberSpaceShip*75) /100;
+            }
+            if(action.equals(KeyPress.SHIFT))
+            {
+                //25 %
+                nbescadron=(this.numberSpaceShip*25)/100;
+            }
+
+            this.createShapeShip(spaceShips,objectiv,nbescadron);
+
+
+        }
+
+
+            this.afterAttak((Planet) objectiv,spaceShips);
     }
 
     public void setNumberSpaceShip(int numberSpaceShip) {
         this.numberSpaceShip = numberSpaceShip;
     }
 
-    public void afterAttak(ArrayList<Item> item, Planet destination,ArrayList<Item> myspaceShips )
+    public void afterAttak(Planet destination,ArrayList<Item> myspaceShips )
     {
-
-        Random random = new Random();
-        int x,y;
-
-            if(!this.player.equals(Color.black) && this.getPlayer().equals(destination.getPlayer()))
+        for (Item item:Item.collection) {
+            if(item instanceof SpaceShip &&  ((SpaceShip) item).getIDPlanet()==System.identityHashCode(this)  )
             {
-                destination.setNumberSpaceShip(destination.getNumberSpaceShip()+1);
-
-            }
-            else if(destination.getPlayer().equals(Color.black) || (!destination.getPlayer().equals(Color.black) && destination.numberSpaceShip==0))
-            {
-                destination.numberSpaceShip = numberSpaceShip;
-
-                destination.player = this.getPlayer();
-
-                if(!myspaceShips.isEmpty())
+                while (! ((SpaceShip) item).getObjective().contains(item.center))
                 {
-                    for (int i = 0; i <myspaceShips.size() ; i++) {
-                        SpaceShip sship = (SpaceShip) myspaceShips.get(i);
-                        sship.setColor(this.player);
-                    }
+
+                    System.out.println(item + " not yet");
                 }
-
             }
-            else
+
+        }
+
+        if(!this.player.equals(Color.black) && this.getPlayer().equals(destination.getPlayer()))
+        {
+            destination.setNumberSpaceShip(destination.getNumberSpaceShip()+1);
+
+        }
+        else if(destination.getPlayer().equals(Color.black) || (!destination.getPlayer().equals(Color.black) && destination.numberSpaceShip==0))
+        {
+            destination.numberSpaceShip = numberSpaceShip;
+
+            destination.player = this.getPlayer();
+
+            if(!myspaceShips.isEmpty())
             {
-                if(!Color.black.equals(player))
-
-                    destination.setNumberSpaceShip(destination.getNumberSpaceShip()-1);
+                for (int i = 0; i <myspaceShips.size() ; i++) {
+                    SpaceShip sship = (SpaceShip) myspaceShips.get(i);
+                    sship.setColor(this.player);
+                }
             }
+
+        }
+        else
+        {
+            if(!Color.black.equals(player))
+
+                destination.setNumberSpaceShip(destination.getNumberSpaceShip()-1);
         }
 
 
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if(o==null)
+            return false;
+        if(this==o)
+            return true;
+        if(o instanceof Planet)
+        {
+            if(this.player.equals(((Planet) o).player) && this.numberSpaceShip==((Planet) o).numberSpaceShip && super.equals(o))
+                return true;
+        }
+        return false;
+    }
+}
 

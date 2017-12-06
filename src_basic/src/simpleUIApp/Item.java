@@ -28,8 +28,8 @@ abstract class Item {
 	}
 
 
-	// public abstract void move();
-	public void move() {};
+	public abstract void move();
+
 
 
 
@@ -38,8 +38,8 @@ abstract class Item {
 	/*
 	 * Idem
 	 */
-	// public abstract void setObjective(Item o);
-	public void setObjective(Item item) {}
+	public abstract void setObjective(Item o);
+
 
 
 	public abstract boolean contains(Point2D p);
@@ -56,4 +56,17 @@ abstract class Item {
 		return String.valueOf(color);
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (o==null)
+			return false;
+		if(o==this)
+			return true;
+		if(o instanceof Item)
+		{
+			if (this.center.equals(((Item) o).center) && this.width==((Item) o).width)
+				return true;
+		}
+		return false;
+	}
 }

@@ -19,24 +19,42 @@ public class Main {
 
 		int x,y;
 		for (int i = 0; i <25 ; i++) {
-		    x=random.nextInt(750);
-		    y=random.nextInt(850);
+		    x=random.nextInt(700);
+		    y=random.nextInt(800);
             if(!testItemList.isEmpty())
             {
 
                 for (int j = 0;j <testItemList.size() ; j++) {
-                    while ((x==testItemList.get(j).getLocation().getX() &&  y==testItemList.get(j).getLocation().getY() ) || testItemList.get(j).contains(new Point2D.Double(x,y)) || testItemList.get(j).contains(new Point2D.Double(x,y)))
+
+					while ( x==testItemList.get(j).getLocation().getX() &&  y==testItemList.get(j).getLocation().getY() || testItemList.get(j).contains(new Point2D.Double(x,y)))
                     {
-                        x=random.nextInt(750);
-                        y=random.nextInt(850);
+                        x=random.nextInt(700);
+                        y=random.nextInt(800);
                     }
+
                 }
             }
 
 			testItemList.add(new Planet(x,y,40));
             Item.collection=testItemList;
 		}
+        /*
+        for (Item item:testItemList) {
+           if(item instanceof Planet)
+           {
+               for (Item item1:testItemList) {
+                   if(item1 instanceof Planet && Math.abs(item.getLocation().getX()-item1.getLocation().getX())<=100.0 || Math.abs(item.getLocation().getY()-item1.getLocation().getY())<=100.0)
+                   {
+                       System.out.println("Fou");
+                       System.out.println("dist x "+Math.abs(item.getLocation().getX()-item1.getLocation().getX()));
+                       System.out.println("dist y "+Math.abs(item.getLocation().getY()-item1.getLocation().getY()));
+                   }
 
+               }
+
+           }
+        }
+         */
 
 
 		Manager manager = new Manager();

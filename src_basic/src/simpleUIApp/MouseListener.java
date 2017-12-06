@@ -44,7 +44,7 @@ public class MouseListener implements MouseHandler<Item> {
                         //item.setObjective(arg0.get(0));
                         if(item instanceof Planet)
                         {
-                            ((Planet) item).attak( arg0.get(0));
+                            ((Planet) item).attak( arg0.get(0),arg1);
                         }
 
                     }

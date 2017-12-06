@@ -11,16 +11,17 @@ class SpaceShip extends Item {
 	private int speed;
 	private int timeProduction;
 	private int power;
+	private int IDPlanet ;
 
 
-
-	public SpaceShip(double x, double y, int w, Color color) {
+	public SpaceShip(double x, double y, int w, Color color,int IDPlanet) {
 		super(x, y, w);
 		objective = this;
 		this.color=color;
-		this.speed = 10;
+		this.speed = 8;
 		this.timeProduction = 5;
 		this.power = 1;
+		this.IDPlanet= IDPlanet;
 	}
 
 	public void setObjective(Item o) {
@@ -46,22 +47,29 @@ class SpaceShip extends Item {
 		this.color = color;
 	}
 
+	public Item getObjective() {
+		return objective;
+	}
+
 	public void move() {
 
 		if (!objective.contains(this.center)) {
 			double newx = center.getX();
 			double newy = center.getY();
 			if (newx > objective.getLocation().getX()) {
+
 				newx--;
 			} else {
 				newx++;
+
 			}
 			if (newy > objective.getLocation().getY()) {
 				newy--;
 			} else {
 				newy++;
 			}
-			center.setLocation(newx, newy);
+			Point2D.Double newposition = checkOverPlanet(newx,newy);
+			center.setLocation(newposition.x, newposition.y);
 		} else {
 
 			objective = this;
@@ -77,8 +85,73 @@ class SpaceShip extends Item {
 
 	}
 
-	@Override
+    public int getIDPlanet() {
+        return IDPlanet;
+    }
+
+    @Override
 	public String toString() {
-		return "SpaceShip "+toStringColor(this.color);
+		return "SpaceShip "+toStringColor(this.color)+" From "+this.IDPlanet;
+	}
+
+	public Point2D.Double checkOverPlanet (double x,double y)
+	{
+		for (Item item:collection) {
+			if(item instanceof Planet &&  !item.equals(objective) )
+			{
+				if( item.contains(new Point2D.Double(x+8,y)) || item.contains(new Point2D.Double(x-8,y)) )
+                {
+
+                    if( !item.contains(new Point2D.Double(x,y+19)) && y+19<800 )
+                    {
+                        //System.out.println("Dans x +y");
+                        y+=19;
+                    }
+                    if (!item.contains(new Point2D.Double(x,y-19)) && y-19<800)
+                    {
+                        //System.out.println("Dans x -y");
+                        y-=19;
+                    }
+
+                    //System.out.println("x ");
+
+
+                }
+                else
+                if( item.contains(new Point2D.Double(x,y+8))  ||item.contains(new Point2D.Double(x,y-8)) )
+                {
+
+                    if( !item.contains(new Point2D.Double(x+19,y)) && x+19<700 )
+                    {
+                        x+=19;
+                        //System.out.println("dans y: +x");
+                    }
+                    if (!item.contains(new Point2D.Double(x-19,y)) || x-19<700)
+                    {
+                        //System.out.println("Dans y : -x");
+                        x-=19;
+                    }
+
+                    //System.out.println("y ");
+                }
+
+
+			}
+		}
+		return new Point2D.Double(x,y);
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if(o==null)
+			return false;
+		if(this==o)
+			return true;
+		if(o instanceof SpaceShip)
+		{
+			if(this.objective.equals(((SpaceShip) o).objective) && this.color.equals(((SpaceShip) o).color) && super.equals(o))
+				return true;
+		}
+		return false;
 	}
 }

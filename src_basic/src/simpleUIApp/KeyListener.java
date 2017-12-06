@@ -36,6 +36,13 @@ public class KeyListener implements KeyHandler {
 		case '-':
 			System.out.println("- has been typed");
 			break;
+		case 'c':
+				System.out.println();
+
+		case 'a':
+
+            System.out.println();
+
 		default:
 			// do nothing
 			break;
