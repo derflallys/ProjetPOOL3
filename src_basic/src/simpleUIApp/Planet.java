@@ -5,13 +5,14 @@ import fr.ubordeaux.simpleUI.KeyPress;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Random;
 
-public class Planet extends Item {
+public class Planet extends Item implements Serializable{
 	private int numberSpaceShip;
-    private static Color saveLast =null  ;
+    private static transient Color saveLast =null  ;
     private Color player;
 
     //System.identityHashCode(this); give me uniq id of my object
@@ -47,7 +48,7 @@ public class Planet extends Item {
 
 
         if(!this.player.equals(Color.black))
-            this.numberSpaceShip=10;
+            this.numberSpaceShip=20;
         else
             this.numberSpaceShip=0;
 
@@ -181,27 +182,29 @@ public class Planet extends Item {
         }
 
 
-            this.afterAttak((Planet) objectiv,spaceShips);
+
     }
 
     public void setNumberSpaceShip(int numberSpaceShip) {
         this.numberSpaceShip = numberSpaceShip;
     }
 
-    public void afterAttak(Planet destination,ArrayList<Item> myspaceShips )
+    public ArrayList<Item> mySpaceShips (Planet objectiv)
     {
-        for (Item item:Item.collection) {
-            if(item instanceof SpaceShip &&  ((SpaceShip) item).getIDPlanet()==System.identityHashCode(this)  )
-            {
-                while (! ((SpaceShip) item).getObjective().contains(item.center))
-                {
-
-                    System.out.println(item + " not yet");
-                }
-            }
-
+        ArrayList<Item> spaceShips = new ArrayList<>();
+        for (Item item: Item.collection) {
+            if (item instanceof SpaceShip && ((SpaceShip) item).getIDPlanet()==System.identityHashCode(this))
+                spaceShips.add(item);
         }
+        return spaceShips;
+    }
 
+    public void afterAttak(Item objectiv )
+    {
+
+
+        Planet destination = (Planet)objectiv;
+        ArrayList<Item> myspaceShips = mySpaceShips(destination);
         if(!this.player.equals(Color.black) && this.getPlayer().equals(destination.getPlayer()))
         {
             destination.setNumberSpaceShip(destination.getNumberSpaceShip()+1);
