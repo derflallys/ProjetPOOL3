@@ -103,6 +103,14 @@ abstract class Item implements Serializable {
 
     }
 
+    public static void eraseAfterAttak()
+    {
+        for (int i = 0; i <Item.collection.size() ; i++) {
+            if(Item.collection.get(i) instanceof SpaceShip && ((SpaceShip) Item.collection.get(i)).getObjective().contains(Item.collection.get(i).center))
+                Item.collection.remove(i);
+        }
+    }
+
 
 	public static ArrayList<Item>  createPlanet()
     {
@@ -110,8 +118,8 @@ abstract class Item implements Serializable {
         ArrayList<Item> testItemList = new ArrayList<>();
         Random random = new Random();
         for (int i = 0; i < 25; i++) {
-            x = random.nextInt(600);
-            y = random.nextInt(700);
+            x = random.nextInt(750);
+            y = random.nextInt(850);
             if (!testItemList.isEmpty()) {
 
                 for (int j = 0; j < testItemList.size(); j++) {
@@ -119,11 +127,10 @@ abstract class Item implements Serializable {
                     while ((x == testItemList.get(j).getLocation().getX() && y == testItemList.get(j).getLocation().getY()) ||
                             testItemList.get(j).contains(new Point2D.Double(x, y)) ||
                             x<=30 || y<=20 ) {
-                        x = random.nextInt(600);
-                        y = random.nextInt(700);
+                        x = random.nextInt(750);
+                        y = random.nextInt(850);
 
                     }
-
 
                 }
             }

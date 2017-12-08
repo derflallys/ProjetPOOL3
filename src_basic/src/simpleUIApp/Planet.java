@@ -116,7 +116,7 @@ public class Planet extends Item implements Serializable{
         if (Planet.getTimeGenerate()>=10000) {
             for (Item item : Item.collection) {
 
-                if (item instanceof Planet) {
+                if (item instanceof Planet && !((Planet) item).getPlayer().equals(Color.black)) {
                     ((Planet) item).numberSpaceShip += 4;
 
                 }
@@ -218,13 +218,7 @@ public class Planet extends Item implements Serializable{
 
 
 
-    public void eraseAfterAttak()
-    {
-        for (int i = 0; i <Item.collection.size() ; i++) {
-            if(Item.collection.get(i) instanceof SpaceShip && ((SpaceShip) Item.collection.get(i)).getObjective().contains(Item.collection.get(i).center))
-                Item.collection.remove(i);
-        }
-    }
+
 
     public void afterAttak(Item objectiv, int power)
     {
@@ -273,6 +267,7 @@ public class Planet extends Item implements Serializable{
 
 
         }
+
 
 
     }
