@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import java.io.Serializable;
+import java.util.Random;
 
 class SpaceShip extends Item  implements Serializable{
 
@@ -21,8 +22,22 @@ class SpaceShip extends Item  implements Serializable{
 		this.color=color;
 		this.speed = 8;
 		this.timeProduction = 5;
-		this.power = 1;
+		setRandPower();
 		this.IDPlanet= IDPlanet;
+	}
+
+	public void setRandPower() {
+		Random random = new Random();
+		int power = random.nextInt(3);
+		while(power==0)
+		{
+			power=random.nextInt(3);
+		}
+		this.power = power;
+	}
+
+	public int getPower() {
+		return power;
 	}
 
 	public void setObjective(Item o) {
@@ -141,6 +156,8 @@ class SpaceShip extends Item  implements Serializable{
 		}
 		return new Point2D.Double(x,y);
 	}
+
+
 
 	@Override
 	public boolean equals(Object o) {

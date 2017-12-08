@@ -5,6 +5,7 @@ import java.awt.event.WindowEvent;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
 
 import javax.swing.*;
@@ -80,7 +81,7 @@ public class Run implements ApplicationRunnable<Item> {
 			 }
 			 else if(option==1)
 			 {
-                 System.out.println("dans non ");
+
                  ArrayList<Item> items=Item.createPlanet();
                  if (items.isEmpty())
                      System.out.println("empty");
@@ -153,7 +154,8 @@ public class Run implements ApplicationRunnable<Item> {
 
 
         Collection<Item> finalArg = arg1;
-        Application.timer(100, new TimerRunnable() {
+		Iterator iterator = finalArg.iterator();
+		Application.timer(100, new TimerRunnable() {
 
 			public void run(TimerTask timerTask) {
 				arg0.refresh();
@@ -171,7 +173,8 @@ public class Run implements ApplicationRunnable<Item> {
                                     Item objectiv = ((SpaceShip) item1).getObjective();
                                     if(objectiv instanceof Planet)
                                     {
-                                        ((Planet)item).afterAttak(objectiv);
+                                        ((Planet)item).afterAttak(objectiv,((SpaceShip) item1).getPower());
+
                                         break;
                                     }
 
@@ -180,7 +183,21 @@ public class Run implements ApplicationRunnable<Item> {
                         }
                     }
 
+
+
 				}
+                for (int i = 0; i <((ArrayList<Item>)finalArg).size() ; i++) {
+                    if(((ArrayList<Item>) finalArg).get(i) instanceof SpaceShip)
+                    {
+                       // ((SpaceShip) ((ArrayList<Item>) finalArg).get(i)).eraseAfterAttak();
+                    }
+
+                }
+
+               Planet.setTimeGenerate(Planet.getTimeGenerate()+100);
+				Planet.UpdateUniteAfterTime();
+
+
 
 
 			}

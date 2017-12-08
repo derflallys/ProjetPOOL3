@@ -13,6 +13,8 @@ public class Planet extends Item implements Serializable{
 	private int numberSpaceShip;
     private static transient Color saveLast =null  ;
     private Color player;
+    private static int timeGenerate = 0;
+
 
     //System.identityHashCode(this); give me uniq id of my object
 
@@ -20,7 +22,13 @@ public class Planet extends Item implements Serializable{
         return player;
     }
 
+    public static int getTimeGenerate() {
+        return timeGenerate;
+    }
 
+    public static void setTimeGenerate(int timeGenerate) {
+        Planet.timeGenerate = timeGenerate;
+    }
 
     public Planet(double x, double y, int w) {
 		super(x, y, w);
@@ -96,9 +104,28 @@ public class Planet extends Item implements Serializable{
 
 
 	public boolean contains(Point2D p) {
-		return squareDistance(this.center, p) <= (getWidth() / 2) * (getWidth() / 2);
+
+        double w = getWidth()/2;
+        return (this.center.getX() - w <= p.getX() && p.getX() <= this.center.getX() + w)
+                && (this.center.getY() - w <= p.getY() && p.getY() <= this.center.getY() + w);
 
 	}
+
+	public static void UpdateUniteAfterTime()
+    {
+        if (Planet.getTimeGenerate()>=10000) {
+            for (Item item : Item.collection) {
+
+                if (item instanceof Planet) {
+                    ((Planet) item).numberSpaceShip += 4;
+
+                }
+            }
+            Planet.setTimeGenerate(0);
+        }
+
+    }
+
 
 	public void createShapeShip(ArrayList<Item> item, Item objectif, int nbescadron)
     {
@@ -121,6 +148,7 @@ public class Planet extends Item implements Serializable{
             Item.collection.add(spaceShip);
             item.add(spaceShip);
         }
+        this.numberSpaceShip= this.numberSpaceShip-nbescadron;
 
     }
 
@@ -139,39 +167,35 @@ public class Planet extends Item implements Serializable{
         ArrayList<Item> spaceShips = new ArrayList<>();
         int nbescadron=0;
         boolean success=false;
+        if (!objectiv.equals(this)) {
+            for (Item item : Item.collection) {
+                if (item instanceof SpaceShip && !((SpaceShip) item).getObjective().contains(item.center) && ((SpaceShip) item).getIDPlanet() == System.identityHashCode(this)) {
+                    item.setObjective(objectiv);
+                    success = true;
+                }
 
-        for (Item item:Item.collection) {
-            if (item instanceof SpaceShip && !((SpaceShip) item).getObjective().contains(item.center) && ((SpaceShip) item).getIDPlanet()==System.identityHashCode(this))
-            {
-                item.setObjective(objectiv);
-                success=true;
+
             }
 
+            if (!this.player.equals(Color.black) && !success) {
 
-        }
+                if (action.equals(KeyPress.CRTL)) {
+                    //100 %
+                    nbescadron = this.numberSpaceShip;
+                }
+                if (action.equals(KeyPress.ALTGR)) {
+                    //75 %
+                    nbescadron = (this.numberSpaceShip * 75) / 100;
+                }
+                if (action.equals(KeyPress.SHIFT)) {
+                    //25 %
+                    nbescadron = (this.numberSpaceShip * 25) / 100;
+                }
 
-        if(!this.player.equals(Color.black) && !success)
-        {
+                this.createShapeShip(spaceShips, objectiv, nbescadron);
 
-            if(action.equals(KeyPress.CRTL))
-            {
-                //100 %
-                nbescadron=this.numberSpaceShip;
+
             }
-            if (action.equals(KeyPress.ALTGR))
-            {
-                //75 %
-                nbescadron=(this.numberSpaceShip*75) /100;
-            }
-            if(action.equals(KeyPress.SHIFT))
-            {
-                //25 %
-                nbescadron=(this.numberSpaceShip*25)/100;
-            }
-
-            this.createShapeShip(spaceShips,objectiv,nbescadron);
-
-
         }
 
 
@@ -182,22 +206,32 @@ public class Planet extends Item implements Serializable{
         this.numberSpaceShip = numberSpaceShip;
     }
 
-    public ArrayList<Item> mySpaceShips()
+    public ArrayList<Item> mySpaceShips(Item who)
     {
         ArrayList<Item> spaceShips = new ArrayList<>();
         for (Item item: Item.collection) {
-            if (item instanceof SpaceShip && ((SpaceShip) item).getIDPlanet()==System.identityHashCode(this))
+            if (item instanceof SpaceShip && ((SpaceShip) item).getIDPlanet()==System.identityHashCode(who))
                 spaceShips.add(item);
         }
         return spaceShips;
     }
 
-    public void afterAttak(Item objectiv )
+
+
+    public void eraseAfterAttak()
+    {
+        for (int i = 0; i <Item.collection.size() ; i++) {
+            if(Item.collection.get(i) instanceof SpaceShip && ((SpaceShip) Item.collection.get(i)).getObjective().contains(Item.collection.get(i).center))
+                Item.collection.remove(i);
+        }
+    }
+
+    public void afterAttak(Item objectiv, int power)
     {
 
 
         Planet destination = (Planet)objectiv;
-        ArrayList<Item> myspaceShips = mySpaceShips();
+        ArrayList<Item> myspaceShips = mySpaceShips(destination);
         if(!this.player.equals(Color.black) && this.getPlayer().equals(destination.getPlayer()))
         {
             destination.setNumberSpaceShip(destination.getNumberSpaceShip()+1);
@@ -221,8 +255,23 @@ public class Planet extends Item implements Serializable{
         else
         {
             if(!Color.black.equals(player))
+            {
+                destination.setNumberSpaceShip(destination.getNumberSpaceShip()-power);
+                if(destination.numberSpaceShip==0)
+                {
+                    destination.player = this.getPlayer();
 
-                destination.setNumberSpaceShip(destination.getNumberSpaceShip()-1);
+                    if(!myspaceShips.isEmpty())
+                    {
+                        for (int i = 0; i <myspaceShips.size() ; i++) {
+                            SpaceShip sship = (SpaceShip) myspaceShips.get(i);
+                            sship.setColor(this.player);
+                        }
+                    }
+                }
+            }
+
+
         }
 
 

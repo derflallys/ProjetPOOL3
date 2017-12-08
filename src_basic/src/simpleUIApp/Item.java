@@ -76,6 +76,11 @@ abstract class Item implements Serializable {
 		return String.valueOf(color);
 	}
 
+	public double getRayon()
+	{
+		return Math.sqrt(Math.pow(getWidth(),2) + Math.pow(getWidth(),2)  ) /2;
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (o==null)
@@ -98,6 +103,7 @@ abstract class Item implements Serializable {
 
     }
 
+
 	public static ArrayList<Item>  createPlanet()
     {
         int x, y;
@@ -112,14 +118,12 @@ abstract class Item implements Serializable {
 
                     while ((x == testItemList.get(j).getLocation().getX() && y == testItemList.get(j).getLocation().getY()) ||
                             testItemList.get(j).contains(new Point2D.Double(x, y)) ||
-                            squareDistance(testItemList.get(j).getLocation(),new Point2D.Double(x,y))<9000 ||
                             x<=30 || y<=20 ) {
                         x = random.nextInt(600);
                         y = random.nextInt(700);
+
                     }
-                    if(squareDistance(testItemList.get(j).getLocation(),new Point2D.Double(x,y))<9000)
-                        System.out.println("square Fouf: "+squareDistance(testItemList.get(j).getLocation(),new Point2D.Double(x,y)));
-                    System.out.println("Distance square: "+squareDistance(testItemList.get(j).getLocation(),new Point2D.Double(x,y)));
+
 
                 }
             }
