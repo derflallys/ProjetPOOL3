@@ -29,7 +29,7 @@ class SpaceShip extends Item  implements Serializable{
 		this.objective = o;
 	}
 
-	private static double squareDistance(Point2D p1, Point2D p2) {
+	private static double squareDistance1(Point2D p1, Point2D p2) {
 		double dx = p1.getX() - p2.getX();
 		double dy = p1.getY() - p2.getY();
 		return dx * dx + dy * dy;
@@ -37,7 +37,7 @@ class SpaceShip extends Item  implements Serializable{
 
 	@Override
 	public boolean contains(Point2D p) {
-		return squareDistance(this.center, p) <= (getWidth() / 2) * (getWidth() / 2);
+		return squareDistance1(this.center, p) <= (getWidth() / 2) * (getWidth() / 2);
 	}
 
 	public Color getColor() {

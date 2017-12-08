@@ -7,7 +7,6 @@ import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Random;
 
 public class Planet extends Item implements Serializable{
@@ -94,13 +93,7 @@ public class Planet extends Item implements Serializable{
 
 	}
 
-	private int squareDistance(Point2D p1, Point2D p2) {
-	
-		double dx = p1.getX() - p2.getX();
-		double dy = p1.getY() - p2.getY();
-		return (int) (dx * dx + dy * dy);
 
-	}
 
 	public boolean contains(Point2D p) {
 		return squareDistance(this.center, p) <= (getWidth() / 2) * (getWidth() / 2);
@@ -189,7 +182,7 @@ public class Planet extends Item implements Serializable{
         this.numberSpaceShip = numberSpaceShip;
     }
 
-    public ArrayList<Item> mySpaceShips (Planet objectiv)
+    public ArrayList<Item> mySpaceShips()
     {
         ArrayList<Item> spaceShips = new ArrayList<>();
         for (Item item: Item.collection) {
@@ -204,7 +197,7 @@ public class Planet extends Item implements Serializable{
 
 
         Planet destination = (Planet)objectiv;
-        ArrayList<Item> myspaceShips = mySpaceShips(destination);
+        ArrayList<Item> myspaceShips = mySpaceShips();
         if(!this.player.equals(Color.black) && this.getPlayer().equals(destination.getPlayer()))
         {
             destination.setNumberSpaceShip(destination.getNumberSpaceShip()+1);

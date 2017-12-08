@@ -90,6 +90,13 @@ abstract class Item implements Serializable {
 		return false;
 	}
 
+    protected static int squareDistance(Point2D p1, Point2D p2) {
+
+        double dx = p1.getX() - p2.getX();
+        double dy = p1.getY() - p2.getY();
+        return (int) (dx * dx + dy * dy);
+
+    }
 
 	public static ArrayList<Item>  createPlanet()
     {
@@ -97,16 +104,22 @@ abstract class Item implements Serializable {
         ArrayList<Item> testItemList = new ArrayList<>();
         Random random = new Random();
         for (int i = 0; i < 25; i++) {
-            x = random.nextInt(700);
-            y = random.nextInt(800);
+            x = random.nextInt(600);
+            y = random.nextInt(700);
             if (!testItemList.isEmpty()) {
 
                 for (int j = 0; j < testItemList.size(); j++) {
 
-                    while (x == testItemList.get(j).getLocation().getX() && y == testItemList.get(j).getLocation().getY() || testItemList.get(j).contains(new Point2D.Double(x, y))) {
-                        x = random.nextInt(700);
-                        y = random.nextInt(800);
+                    while ((x == testItemList.get(j).getLocation().getX() && y == testItemList.get(j).getLocation().getY()) ||
+                            testItemList.get(j).contains(new Point2D.Double(x, y)) ||
+                            squareDistance(testItemList.get(j).getLocation(),new Point2D.Double(x,y))<9000 ||
+                            x<=30 || y<=20 ) {
+                        x = random.nextInt(600);
+                        y = random.nextInt(700);
                     }
+                    if(squareDistance(testItemList.get(j).getLocation(),new Point2D.Double(x,y))<9000)
+                        System.out.println("square Fouf: "+squareDistance(testItemList.get(j).getLocation(),new Point2D.Double(x,y)));
+                    System.out.println("Distance square: "+squareDistance(testItemList.get(j).getLocation(),new Point2D.Double(x,y)));
 
                 }
             }
