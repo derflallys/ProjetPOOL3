@@ -83,7 +83,7 @@ public class Run implements ApplicationRunnable<Item> {
 			 else if(option==1 || option==-1)
 			 {
 
-                 ArrayList<Item> items=Item.createPlanet();
+                 ArrayList<Item> items=Item.createPlanet(15);
                  if (items.isEmpty())
                      System.out.println("empty");
                  for (Item item:
@@ -156,9 +156,11 @@ public class Run implements ApplicationRunnable<Item> {
 
 
         Collection<Item> finalArg = arg1;
-		Iterator iterator = finalArg.iterator();
+
 
         Application.timer(100, new TimerRunnable() {
+
+
             boolean finish;
 			public void run(TimerTask timerTask) {
 				arg0.refresh();
@@ -200,53 +202,20 @@ public class Run implements ApplicationRunnable<Item> {
                Planet.setTimeGenerate(Planet.getTimeGenerate()+100);
 				Planet.UpdateUniteAfterTime();
 
-
-                for (int j = 0; j <2 ; j++) {
-                    boolean onecolor =true;
-                    for (int i = 0; i <((ArrayList<Item>)finalArg).size() ; i++) {
-                        if(((ArrayList<Item>) finalArg).get(i) instanceof Planet)
-                        {
-                            if (j==0)
-                            {
-                                if(!((Planet) ((ArrayList<Item>) finalArg).get(i)).getPlayer().equals(Color.BLUE))
-                                {
-                                    onecolor=false;
-                                    break;
-
-                                }
-
-                            }
-
-                            if(j==1)
-                            {
-                                if(!((Planet) ((ArrayList<Item>) finalArg).get(i)).getPlayer().equals(Color.green))
-                                {
-                                    onecolor=false;
-                                }
-
-                            }
-
-
-                        }
-
-                    }
-                    if(onecolor==true)
-                    {
-                        Color playerWon ;
-                        if(j==0)
-                            playerWon=Color.BLUE;
-                        else
-                            playerWon=Color.green;
-
-                          JOptionPane.showMessageDialog(frame,
-                                "Player "+Item.toStringColor(playerWon)+" Win the Game ! ",
-                                " End of Game ",
-                                JOptionPane.INFORMATION_MESSAGE);
-                        System.out.println("End of the Game ! ");
-                        frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
-                    }
-
+                if(!Item.EndOfGame().equals(Color.RED))
+                {
+                    JOptionPane.showMessageDialog(frame,
+                            "Player "+Item.toStringColor(Item.EndOfGame())+" Win the Game ! ",
+                            " End of Game ",
+                            JOptionPane.INFORMATION_MESSAGE);
+                    System.out.println("End of the Game ! ");
+                    frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
                 }
+
+
+
+
+
 
 
 

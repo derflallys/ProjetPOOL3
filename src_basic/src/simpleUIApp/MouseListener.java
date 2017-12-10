@@ -41,9 +41,14 @@ public class MouseListener implements MouseHandler<Item> {
 				try {
 					if(item instanceof Planet)
                     {
-                        //item.setObjective(arg0.get(0));
                         if(item instanceof Planet)
                         {
+                        	if(Planet.firstGame==null)
+							{
+								Planet.firstGame= (Planet) item;
+								System.out.println("Initialise fisrtGame");
+							}
+
                             ((Planet) item).attak( arg0.get(0),arg1);
                         }
 

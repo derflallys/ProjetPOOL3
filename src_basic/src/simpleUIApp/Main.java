@@ -3,9 +3,6 @@ package simpleUIApp;
 
 import java.io.*;
 import java.util.ArrayList;
-
-import java.util.Random;
-
 import fr.ubordeaux.simpleUI.*;
 
 
@@ -20,7 +17,7 @@ public class Main {
 		 */
 		File f = new File("collection.ser");
 		if (!f.exists()) {
-             testItemList= Item.createPlanet();
+             testItemList= Item.createPlanet(15);
              Item.collection=testItemList;
         }
 
@@ -34,5 +31,6 @@ public class Main {
 		 * item manager and an ApplicationRunnable
 		 */
 		Application.run(testItemList, manager, r);
+
 	}
 }

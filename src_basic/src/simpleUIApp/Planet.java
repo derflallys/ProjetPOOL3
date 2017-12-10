@@ -14,7 +14,7 @@ public class Planet extends Item implements Serializable{
     private static transient Color saveLast =null  ;
     private Color player;
     private static int timeGenerate = 0;
-
+    public static transient Planet  firstGame = null;
 
     //System.identityHashCode(this); give me uniq id of my object
 
@@ -63,7 +63,12 @@ public class Planet extends Item implements Serializable{
 
     }
 
-	private int randomColor()
+    public Planet(double x, double y, int w, Color player) {
+        super(x, y, w);
+        this.player = player;
+    }
+
+    private int randomColor()
 	{
 		//Number 0 GREED
 
@@ -82,10 +87,11 @@ public class Planet extends Item implements Serializable{
 		return rand.nextInt(3);
 
 	}
-    public void setObjective(Item item) {};
-    public void move() {};
+    public void setObjective(Item item) {}
 
-	public void draw(Graphics2D g) {
+    public void move() {}
+
+    public void draw(Graphics2D g) {
 		Point2D pl = this.center;
 		int x = (int) pl.getX();
 		int y = (int) pl.getY();
@@ -117,7 +123,7 @@ public class Planet extends Item implements Serializable{
             for (Item item : Item.collection) {
 
                 if (item instanceof Planet && !((Planet) item).getPlayer().equals(Color.black)) {
-                    ((Planet) item).numberSpaceShip += 4;
+                    ((Planet) item).numberSpaceShip += 1;
 
                 }
             }
@@ -173,7 +179,6 @@ public class Planet extends Item implements Serializable{
                     item.setObjective(objectiv);
                     success = true;
                 }
-
 
             }
 
@@ -231,7 +236,7 @@ public class Planet extends Item implements Serializable{
             destination.setNumberSpaceShip(destination.getNumberSpaceShip()+1);
 
         }
-        else if(destination.getPlayer().equals(Color.black) || (!destination.getPlayer().equals(Color.black) && destination.numberSpaceShip==0))
+        else if(destination.getPlayer().equals(Color.black) || (!destination.getPlayer().equals(Color.black) && destination.numberSpaceShip<=0))
         {
             destination.numberSpaceShip = numberSpaceShip;
 
@@ -251,7 +256,7 @@ public class Planet extends Item implements Serializable{
             if(!Color.black.equals(player))
             {
                 destination.setNumberSpaceShip(destination.getNumberSpaceShip()-power);
-                if(destination.numberSpaceShip==0)
+                if(destination.numberSpaceShip<=0)
                 {
                     destination.player = this.getPlayer();
 

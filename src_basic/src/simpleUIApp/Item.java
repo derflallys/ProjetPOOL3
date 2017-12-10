@@ -33,25 +33,7 @@ abstract class Item implements Serializable {
 	public abstract void move();
 
 
-	public static  int numberPlanet()
-	{
-		int number=0;
-        for (Item item:Item.collection) {
-            if(item instanceof Planet)
-                number++;
-        }
-        return number;
-    }
 
-    public static  int numberSpaceShip()
-    {
-        int number=0;
-        for (Item item:Item.collection) {
-            if(item instanceof SpaceShip)
-                number++;
-        }
-        return number;
-    }
 
 	public abstract void draw(Graphics2D arg0);
 
@@ -111,13 +93,51 @@ abstract class Item implements Serializable {
         }
     }
 
+    public static Color EndOfGame() {
+        Color playerWon = null;
+        for (int j = 0; j < 2; j++) {
+            boolean onecolor = true;
+            for (int i = 0; i < Item.collection.size(); i++) {
+                if (Item.collection.get(i) instanceof Planet) {
+                    if (j == 0) {
+                        if (!((Planet) Item.collection.get(i)).getPlayer().equals(Color.BLUE)) {
+                            onecolor = false;
+                            break;
 
-	public static ArrayList<Item>  createPlanet()
+                        }
+
+                    }
+
+                    if (j == 1) {
+                        if (!((Planet) Item.collection.get(i)).getPlayer().equals(Color.green)) {
+                            onecolor = false;
+                        }
+
+                    }
+
+
+                }
+
+            }
+            if (onecolor == true) {
+                if (j == 0)
+                    return Color.BLUE;
+                else
+                    return  Color.green;
+            }
+        }
+        return Color.RED;
+
+    }
+
+	public static ArrayList<Item>  createPlanet(int number )
     {
+        if (number<=5)
+            number=10;
         int x, y;
         ArrayList<Item> testItemList = new ArrayList<>();
         Random random = new Random();
-        for (int i = 0; i < 25; i++) {
+        for (int i = 0; i < number; i++) {
             x = random.nextInt(750);
             y = random.nextInt(850);
             if (!testItemList.isEmpty()) {
@@ -135,9 +155,38 @@ abstract class Item implements Serializable {
                 }
             }
 
-            testItemList.add(new Planet(x, y, 40));
+            testItemList.add(new Planet(x, y, 60));
 
         }
         return testItemList;
+    }
+
+
+    public  static  void createPlanetBlack()
+    {
+        int x, y;
+
+        Random random = new Random();
+        for (int i = 0; i < 4; i++) {
+            x = random.nextInt(750);
+            y = random.nextInt(850);
+            if (!Item.collection.isEmpty()) {
+
+                for (int j = 0; j < Item.collection.size(); j++) {
+
+                    while ((x == Item.collection.get(j).getLocation().getX() && y == Item.collection.get(j).getLocation().getY()) ||
+                            Item.collection.get(j).contains(new Point2D.Double(x, y)) ||
+                            x<=30 || y<=20 ) {
+                        x = random.nextInt(750);
+                        y = random.nextInt(850);
+
+                    }
+
+                }
+            }
+
+            Item.collection.add(new Planet(x, y, 60,Color.black));
+
+        }
     }
 }

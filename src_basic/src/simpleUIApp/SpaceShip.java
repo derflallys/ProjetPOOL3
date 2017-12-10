@@ -52,7 +52,9 @@ class SpaceShip extends Item  implements Serializable{
 
 	@Override
 	public boolean contains(Point2D p) {
-		return squareDistance1(this.center, p) <= (getWidth() / 2) * (getWidth() / 2);
+        double w = getWidth() / 2;
+        return (this.center.getX() - w <= p.getX() && p.getX() <= this.center.getX() + w)
+                && (this.center.getY() - w <= p.getY() && p.getY() <= this.center.getY() + w);
 	}
 
 	public Color getColor() {
@@ -130,8 +132,6 @@ class SpaceShip extends Item  implements Serializable{
                     }
 
                     //System.out.println("x ");
-
-
                 }
                 else
                 if( item.contains(new Point2D.Double(x,y+8))  ||item.contains(new Point2D.Double(x,y-8)) )
