@@ -83,7 +83,7 @@ public class Run implements ApplicationRunnable<Item> {
 			 else if(option==1 || option==-1)
 			 {
 
-                 ArrayList<Item> items=Item.createPlanet(15);
+                 ArrayList<Item> items=Item.createPlanet(10);
                  if (items.isEmpty())
                      System.out.println("empty");
                  for (Item item:
@@ -160,43 +160,47 @@ public class Run implements ApplicationRunnable<Item> {
 
         Application.timer(100, new TimerRunnable() {
 
-
-            boolean finish;
+			boolean finish;
 			public void run(TimerTask timerTask) {
 				arg0.refresh();
 
 				for (Item item : finalArg) {
 					item.move();
-					if(item instanceof Planet )
-                    {
-                        for (Item item1 : finalArg) {
-                            if(item1 instanceof SpaceShip && ((SpaceShip) item1).getIDPlanet()==System.identityHashCode(item))
-                            {
 
-                                if(((SpaceShip) item1).getObjective().contains(item1.center))
-                                {
-                                    
-                                    Item objectiv = ((SpaceShip) item1).getObjective();
-                                    if(objectiv instanceof Planet)
-                                    {
-                                        ((Planet)item).afterAttak(objectiv,((SpaceShip) item1).getPower());
-                                        finish= true;
-                                        break;
-                                    }
-
-
-                                }
-                                else
-                                    finish=false;
-                            }
-                        }
-                    }
 
 				}
-				if(finish)
-                {
-                    Item.eraseAfterAttak();
-                }
+
+				for (int i = 0; i <Item.collection.size() ; i++) {
+					if(Item.collection.get(i) instanceof Planet )
+					{
+						for (int j = 0; j <Item.collection.size() ; j++)
+						 {
+							if(Item.collection.get(j) instanceof SpaceShip && ((SpaceShip) Item.collection.get(j)).getIDPlanet()==System.identityHashCode(Item.collection.get(i)))
+							{
+
+								if(((SpaceShip) Item.collection.get(j)).getObjective().contains(Item.collection.get(j).center))
+								{
+
+									Item objectiv = ((SpaceShip) Item.collection.get(j)).getObjective();
+									if(objectiv instanceof Planet)
+									{
+										finish=((Planet)Item.collection.get(i)).afterAttak(objectiv,((SpaceShip) Item.collection.get(j)).getPower());
+										if(finish)
+										{
+											Item.eraseAfterAttak();
+										}
+										break;
+									}
+
+
+								}
+
+							}
+						}
+					}
+				}
+
+
 
 
                Planet.setTimeGenerate(Planet.getTimeGenerate()+100);

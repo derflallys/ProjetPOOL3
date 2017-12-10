@@ -111,9 +111,7 @@ public class Planet extends Item implements Serializable{
 
 	public boolean contains(Point2D p) {
 
-        double w = getWidth()/2;
-        return (this.center.getX() - w <= p.getX() && p.getX() <= this.center.getX() + w)
-                && (this.center.getY() - w <= p.getY() && p.getY() <= this.center.getY() + w);
+        return squareDistance(this.center, p) <= (getWidth() / 2) * (getWidth() / 2);
 
 	}
 
@@ -225,7 +223,7 @@ public class Planet extends Item implements Serializable{
 
 
 
-    public void afterAttak(Item objectiv, int power)
+    public   boolean afterAttak(Item objectiv, int power)
     {
 
 
@@ -234,6 +232,7 @@ public class Planet extends Item implements Serializable{
         if(!this.player.equals(Color.black) && this.getPlayer().equals(destination.getPlayer()))
         {
             destination.setNumberSpaceShip(destination.getNumberSpaceShip()+1);
+            return true;
 
         }
         else if(destination.getPlayer().equals(Color.black) || (!destination.getPlayer().equals(Color.black) && destination.numberSpaceShip<=0))
@@ -249,6 +248,7 @@ public class Planet extends Item implements Serializable{
                     sship.setColor(this.player);
                 }
             }
+            return true;
 
         }
         else
@@ -268,11 +268,12 @@ public class Planet extends Item implements Serializable{
                         }
                     }
                 }
+                return true;
             }
 
 
         }
-
+        return false;
 
 
     }

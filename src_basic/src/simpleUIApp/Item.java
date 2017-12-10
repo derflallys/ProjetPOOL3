@@ -1,5 +1,7 @@
 package simpleUIApp;
 
+import fr.ubordeaux.simpleUI.KeyPress;
+
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.io.Serializable;
@@ -10,7 +12,7 @@ import java.util.Random;
  * Any graphical element that will be handle by the application.
  *
  */
-abstract class Item implements Serializable {
+abstract class Item implements Serializable  {
 
 	protected final Point2D center;
 	private final int width;
@@ -32,10 +34,44 @@ abstract class Item implements Serializable {
 
 	public abstract void move();
 
+	synchronized static void IAPlayer(Color player)
+    {
+        System.out.println("Begin "+toStringColor(player));
+        Random random = new Random();
+        int pos = random.nextInt(Item.collection.size());
+        while (Item.collection.get(pos) instanceof SpaceShip || ((Planet) Item.collection.get(pos)).getPlayer().equals(Color.black) || ((Planet) Item.collection.get(pos)).getPlayer().equals(player))
+            pos = random.nextInt(Item.collection.size());
+        int posobject = random.nextInt(Item.collection.size());
+        if (Item.collection.get(pos) instanceof Planet) {
+            while (Item.collection.get(posobject) instanceof SpaceShip || Item.collection.get(posobject).equals(Item.collection.get(pos)))
+                posobject = random.nextInt(Item.collection.size());
+
+            int kpres = random.nextInt(3);
+            KeyPress press = KeyPress.UNKNOWN;
+            if (kpres == 0)
+                press = KeyPress.CRTL;
+            if (kpres == 1)
+                press = KeyPress.ALTGR;
+            if (kpres == 2)
+                press = KeyPress.SHIFT;
+
+            if (!(Item.collection.get(posobject) instanceof SpaceShip)) {
+                ((Planet) Item.collection.get(pos)).attak(Item.collection.get(posobject), press);
+
+                System.out.println("Drag& Drop :" + Item.collection.get(pos) + " => " + Item.collection.get(posobject) + " using " + press.toString());
+                try {
+                    Thread.sleep(10000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
+    }
 
 
 
-	public abstract void draw(Graphics2D arg0);
+    public abstract void draw(Graphics2D arg0);
 
 	/*
 	 * Idem
@@ -144,7 +180,11 @@ abstract class Item implements Serializable {
 
                 for (int j = 0; j < testItemList.size(); j++) {
 
-                    while ((x == testItemList.get(j).getLocation().getX() && y == testItemList.get(j).getLocation().getY()) ||
+                    while ((x == testItemList.get(j).getLocation().getX() && y== testItemList.get(j).getLocation().getY()) ||
+                            testItemList.get(j).contains(new Point2D.Double(x-30, y-30)) ||
+                            testItemList.get(j).contains(new Point2D.Double(x+30, y+30)) ||
+                            testItemList.get(j).contains(new Point2D.Double(x-30, y+30)) ||
+                            testItemList.get(j).contains(new Point2D.Double(x+30, y-30)) ||
                             testItemList.get(j).contains(new Point2D.Double(x, y)) ||
                             x<=30 || y<=20 ) {
                         x = random.nextInt(750);
@@ -174,7 +214,11 @@ abstract class Item implements Serializable {
 
                 for (int j = 0; j < Item.collection.size(); j++) {
 
-                    while ((x == Item.collection.get(j).getLocation().getX() && y == Item.collection.get(j).getLocation().getY()) ||
+                    while ((x == Item.collection.get(j).getLocation().getX() && y== Item.collection.get(j).getLocation().getY()) ||
+                            Item.collection.get(j).contains(new Point2D.Double(x-30, y-30)) ||
+                            Item.collection.get(j).contains(new Point2D.Double(x+30, y+30)) ||
+                            Item.collection.get(j).contains(new Point2D.Double(x-30, y+30)) ||
+                            Item.collection.get(j).contains(new Point2D.Double(x+30, y-30)) ||
                             Item.collection.get(j).contains(new Point2D.Double(x, y)) ||
                             x<=30 || y<=20 ) {
                         x = random.nextInt(750);

@@ -17,7 +17,7 @@ public class Main {
 		 */
 		File f = new File("collection.ser");
 		if (!f.exists()) {
-             testItemList= Item.createPlanet(15);
+             testItemList= Item.createPlanet(10);
              Item.collection=testItemList;
         }
 

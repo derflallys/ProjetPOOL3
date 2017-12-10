@@ -112,44 +112,48 @@ class SpaceShip extends Item  implements Serializable{
 		return "SpaceShip "+toStringColor(this.color)+" From "+this.IDPlanet;
 	}
 
-	public Point2D.Double checkOverPlanet (double x,double y)
+	public   Point2D.Double checkOverPlanet (double x,double y)
 	{
 		for (Item item:collection) {
 			if(item instanceof Planet &&  !item.equals(objective) )
 			{
-				if( item.contains(new Point2D.Double(x+8,y)) || item.contains(new Point2D.Double(x-8,y)) )
+
+                if( item.contains(new Point2D.Double(x+getWidth(),y)) || item.contains(new Point2D.Double(x-getWidth(),y)) )
                 {
 
-                    if( !item.contains(new Point2D.Double(x,y+19)) && y+19<800 )
+                    if( !item.contains(new Point2D.Double(x,y+getWidth())) && y+getWidth()<850 )
                     {
                         //System.out.println("Dans x +y");
-                        y+=19;
+                        y+=getWidth()+5;
                     }
-                    if (!item.contains(new Point2D.Double(x,y-19)) && y-19<800)
+
+                    if (!item.contains(new Point2D.Double(x,y-getWidth())) && y-getWidth()<850)
                     {
                         //System.out.println("Dans x -y");
-                        y-=19;
+                        y-=getWidth()+5;
                     }
 
-                    //System.out.println("x ");
+
                 }
                 else
-                if( item.contains(new Point2D.Double(x,y+8))  ||item.contains(new Point2D.Double(x,y-8)) )
+                if( item.contains(new Point2D.Double(x,y+getWidth()))  ||item.contains(new Point2D.Double(x,y-getWidth())) )
                 {
 
-                    if( !item.contains(new Point2D.Double(x+19,y)) && x+19<700 )
+                    if( !item.contains(new Point2D.Double(x+getWidth(),y)) && x+getWidth()<750 )
                     {
-                        x+=19;
+                        x+=getWidth()+5;
                         //System.out.println("dans y: +x");
                     }
-                    if (!item.contains(new Point2D.Double(x-19,y)) || x-19<700)
+
+                    if (!item.contains(new Point2D.Double(x-getWidth(),y)) || x-getWidth()<750)
                     {
                         //System.out.println("Dans y : -x");
-                        x-=19;
+                        x-=getWidth()+5;
                     }
 
-                    //System.out.println("y ");
+
                 }
+
 
 
 			}
