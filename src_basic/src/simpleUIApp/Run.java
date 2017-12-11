@@ -42,7 +42,9 @@ public class Run implements ApplicationRunnable<Item> {
 		 */
 		KeyListener keyListener = new KeyListener(frame);
 
-
+		/**
+		 * if the saveguard  exists it will be load else if you want to begin a new game a new part of game will be begin
+		 */
 		if (arg1.isEmpty())
 		{
 
@@ -106,6 +108,9 @@ public class Run implements ApplicationRunnable<Item> {
 		frame.pack();
 		frame.setVisible(true);
         frame.setLocationRelativeTo(null);
+		/**
+		 * save game when you exit the game by click of close window
+		 */
 		frame.addWindowListener(new WindowAdapter()
 		{
 
@@ -201,8 +206,6 @@ public class Run implements ApplicationRunnable<Item> {
 				}
 
 
-
-
                Planet.setTimeGenerate(Planet.getTimeGenerate()+100);
 				Planet.UpdateUniteAfterTime();
 
@@ -215,12 +218,6 @@ public class Run implements ApplicationRunnable<Item> {
                     System.out.println("End of the Game ! ");
                     frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
                 }
-
-
-
-
-
-
 
 
 

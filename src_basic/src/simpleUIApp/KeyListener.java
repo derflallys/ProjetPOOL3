@@ -37,8 +37,12 @@ public class KeyListener implements KeyHandler {
 	public void keyTyped(char arg0) {
 		switch (arg0) {
 		case '+':
-			System.out.println("Add neutral planet");
+			System.out.println("Add 4 neutral planet");
 			Item.createPlanetBlack();
+            JOptionPane.showMessageDialog(mFrame,
+                    "Add 4 neutral planet ! ",
+                    " Add neutral Planet",
+                    JOptionPane.INFORMATION_MESSAGE);
 			break;
 		case '-':
 			System.out.println("- has been typed");
@@ -51,12 +55,10 @@ public class KeyListener implements KeyHandler {
                     JOptionPane.INFORMATION_MESSAGE);
             Color player1 = Color.green;
             Color player2 = Color.BLUE;
-            boolean token1 = true;
-            boolean token2 = false;
 
-            Random random = new Random();
-            Thread threadPlayer2 = null;
-            Thread threadPlayer1=null;
+
+            Thread threadPlayer2 ;
+            Thread threadPlayer1;
 
             threadPlayer1 = new Thread("Player 1") {
                 public void run() {
@@ -100,7 +102,7 @@ public class KeyListener implements KeyHandler {
 		case 'p':
 
             System.out.println("At the computer to play");
-            random = new Random();
+
             Thread threadComputer=null;
             threadComputer = new Thread("Computer") {
                 public void run() {
@@ -124,54 +126,7 @@ public class KeyListener implements KeyHandler {
                 System.out.println("End of the Game ! ");
                 mFrame.dispatchEvent(new WindowEvent(mFrame, WindowEvent.WINDOW_CLOSING));
             }
-            /*
-            int pos = random.nextInt(Item.collection.size());
-            if (Planet.firstGame==null)
-            {
-                while (Item.collection.get(pos) instanceof SpaceShip || ((Planet) Item.collection.get(pos)).getPlayer().equals(Color.black))
-                    pos = random.nextInt(Item.collection.size());
-            }
-            else
-            {
-                while( Item.collection.get(pos) instanceof SpaceShip || ((Planet) Item.collection.get(pos)).getPlayer().equals(Planet.firstGame.getPlayer()) || ((Planet) Item.collection.get(pos)).getPlayer().equals(Color.black))
-                    pos = random.nextInt(Item.collection.size());
-            }
 
-
-            int posobject=random.nextInt(Item.collection.size());
-            if( Item.collection.get(pos) instanceof Planet)
-			{
-				while(Item.collection.get(posobject) instanceof SpaceShip || Item.collection.get(posobject).equals(Item.collection.get(pos)))
-					posobject = random.nextInt(Item.collection.size());
-
-				int kpres = random.nextInt(3);
-				KeyPress press = KeyPress.UNKNOWN;
-				if (kpres==0)
-					press=KeyPress.CRTL;
-				if (kpres==1)
-					press=KeyPress.ALTGR;
-				if (kpres==2)
-					press=KeyPress.SHIFT;
-
-                if(!(Item.collection.get(posobject) instanceof SpaceShip))
-                {
-                    ((Planet) Item.collection.get(pos)).attak(Item.collection.get(posobject),press);
-                    JOptionPane.showMessageDialog(mFrame,
-                            "Computer Play "+Item.toStringColor(((Planet) Item.collection.get(pos)).getPlayer())+" :  \n Drag& Drop :" + Item.collection.get(pos) + " => " + Item.collection.get(posobject) + " using " + press.toString(),
-                            " Notification Game",
-                            JOptionPane.INFORMATION_MESSAGE);
-                    System.out.println("Drag& Drop :" + Item.collection.get(pos) + " => " + Item.collection.get(posobject) + " using " + press.toString());
-                }
-                else
-                {
-                    JOptionPane.showMessageDialog(mFrame,
-                            "Give the computer another chance",
-                            " Notification Game",
-                            JOptionPane.INFORMATION_MESSAGE);
-                    System.out.println("Give the computer another chance");
-                }
-
-			}*/
 
 			break;
 

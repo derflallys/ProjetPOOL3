@@ -16,6 +16,9 @@ abstract class Item implements Serializable  {
 
 	protected final Point2D center;
 	private final int width;
+    /**
+     * a collection containing all the planets and ships of the game
+     */
 	public static transient ArrayList<Item> collection ;
 
 	public Item(double x, double y, int w) {
@@ -34,7 +37,11 @@ abstract class Item implements Serializable  {
 
 	public abstract void move();
 
-	synchronized static void IAPlayer(Color player)
+    /**
+     *this synchronized method allows the user to play himself with his opponent as parameter
+     * @param player
+     */
+	public synchronized static void IAPlayer(Color player)
     {
         System.out.println("Begin "+toStringColor(player));
         Random random = new Random();
@@ -82,6 +89,11 @@ abstract class Item implements Serializable  {
 
 	public abstract boolean contains(Point2D p);
 
+    /**
+     *converts our colors used into strings of characters
+     * @param color
+     * @return the string corresponding to the color (BLUE - GREEN - BLACK)
+     */
 	public static String toStringColor(Color color)
 	{
 
@@ -94,11 +106,20 @@ abstract class Item implements Serializable  {
 		return String.valueOf(color);
 	}
 
+    /**
+     *Calculate the radius of cirlce
+     * @return
+     */
 	public double getRayon()
 	{
 		return Math.sqrt(Math.pow(getWidth(),2) + Math.pow(getWidth(),2)  ) /2;
 	}
 
+    /**
+     * Used to compare two Items based on these coordinates and its width
+     * @param o
+     * @return true ou false
+     */
 	@Override
 	public boolean equals(Object o) {
 		if (o==null)
@@ -121,6 +142,9 @@ abstract class Item implements Serializable  {
 
     }
 
+    /**
+     * allows you to remove ships that have reached their target
+     */
     public static void eraseAfterAttak()
     {
         for (int i = 0; i <Item.collection.size() ; i++) {
@@ -129,6 +153,10 @@ abstract class Item implements Serializable  {
         }
     }
 
+    /**
+     * allows to determine the end of the game
+     * @return Color.RED if one is at the end otherwise return the color of the winning player
+     */
     public static Color EndOfGame() {
         Color playerWon = null;
         for (int j = 0; j < 2; j++) {
@@ -166,6 +194,11 @@ abstract class Item implements Serializable  {
 
     }
 
+    /**
+     * Allows you to create a list of planets of all colors
+     * @param number of planet to create
+     * @return list of planet
+     */
 	public static ArrayList<Item>  createPlanet(int number )
     {
         if (number<=5)
@@ -201,7 +234,9 @@ abstract class Item implements Serializable  {
         return testItemList;
     }
 
-
+    /**
+     *create a neutral planet list and add them to Item.collection
+     */
     public  static  void createPlanetBlack()
     {
         int x, y;

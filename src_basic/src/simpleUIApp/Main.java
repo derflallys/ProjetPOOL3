@@ -13,7 +13,7 @@ public class Main {
 		ArrayList<Item> testItemList = new ArrayList<Item>();
 
 		/*
-		 * Randomly position 25 Ships in the Arena zone (defined afterwards)
+		 * Check if  safeguard existed
 		 */
 		File f = new File("collection.ser");
 		if (!f.exists()) {

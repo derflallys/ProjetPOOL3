@@ -41,8 +41,10 @@ public class MouseListener implements MouseHandler<Item> {
 				try {
 					if(item instanceof Planet)
                     {
+
                         if(item instanceof Planet)
                         {
+                        	//This is use to play with computer or a game between computer
                         	if(Planet.firstGame==null)
 							{
 								Planet.firstGame= (Planet) item;

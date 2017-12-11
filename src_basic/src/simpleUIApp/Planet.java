@@ -18,10 +18,18 @@ public class Planet extends Item implements Serializable{
 
     //System.identityHashCode(this); give me uniq id of my object
 
+    /**
+     * allows to have the color of the player (of the planet)
+     * @return color of planet
+     */
     public Color getPlayer() {
         return player;
     }
 
+    /**
+     * allows to have time for the generation of new planet
+     * @return int  time
+     */
     public static int getTimeGenerate() {
         return timeGenerate;
     }
@@ -68,6 +76,10 @@ public class Planet extends Item implements Serializable{
         this.player = player;
     }
 
+    /**
+     * intelligently generate colors for planet or ship creation
+     * @return int corresponding of color
+     */
     private int randomColor()
 	{
 		//Number 0 GREED
@@ -96,7 +108,6 @@ public class Planet extends Item implements Serializable{
 		int x = (int) pl.getX();
 		int y = (int) pl.getY();
 		int w = getWidth();
-        //System.out.println(randomColor());
 
         g.setColor(this.player);
 
@@ -115,6 +126,9 @@ public class Planet extends Item implements Serializable{
 
 	}
 
+    /**
+     * allows to increment the number of ships when timeGenerate would have a value greater than or equal to 10000 ms
+     */
 	public static void UpdateUniteAfterTime()
     {
         if (Planet.getTimeGenerate()>=10000) {
@@ -130,8 +144,13 @@ public class Planet extends Item implements Serializable{
 
     }
 
-
-	public void createShapeShip(ArrayList<Item> item, Item objectif, int nbescadron)
+    /**
+     *allows you to create ships
+     * @param item the collection containing all the items (planets and ships)
+     * @param objectif of SpaceShip
+     * @param nbescadron is the number of ships to send to the target planet
+     */
+	public void createSpaceShip(ArrayList<Item> item, Item objectif, int nbescadron)
     {
         Random random = new Random();
         int x,y;
@@ -165,6 +184,11 @@ public class Planet extends Item implements Serializable{
         return "Planet Code:"+System.identityHashCode(this)+"  " +toStringColor(this.player)+" nbSpaceShip: "+this.numberSpaceShip;
     }
 
+    /**
+     *can attack a planet if it does not have an attack in court or it just changes the goal
+     * @param objectiv cible of planet
+     * @param action allows to determine according to CRTL - ALT -SHIF the number of ships to send
+     */
     public void attak(Item objectiv,KeyPress action)
     {
 
@@ -195,7 +219,7 @@ public class Planet extends Item implements Serializable{
                     nbescadron = (this.numberSpaceShip * 25) / 100;
                 }
 
-                this.createShapeShip(spaceShips, objectiv, nbescadron);
+                this.createSpaceShip(spaceShips, objectiv, nbescadron);
 
 
             }
@@ -209,6 +233,11 @@ public class Planet extends Item implements Serializable{
         this.numberSpaceShip = numberSpaceShip;
     }
 
+    /**
+     * allows you to return a list of ships belonging to a given planet in parameter using System.identityHashCode of the planet
+     * @param who la planete concernée
+     * @return list of SpaceShip
+     */
     public ArrayList<Item> mySpaceShips(Item who)
     {
         ArrayList<Item> spaceShips = new ArrayList<>();
@@ -220,9 +249,12 @@ public class Planet extends Item implements Serializable{
     }
 
 
-
-
-
+    /**
+     * allows to evaluate the damage or the troop movements to carry out by increasing or decreasing the number of ships of the planets concerned
+     * @param objectiv of SpaceShip
+     * @param power of SpaceShip
+     * @return true or false after evaluate
+     */
     public   boolean afterAttak(Item objectiv, int power)
     {
 
@@ -278,6 +310,11 @@ public class Planet extends Item implements Serializable{
 
     }
 
+    /**
+     *allows to compare two planets based on the method of the parent class
+     * @param o
+     * @return true if it's the same else false
+     */
     @Override
     public boolean equals(Object o) {
         if(o==null)

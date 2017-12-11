@@ -26,6 +26,9 @@ class SpaceShip extends Item  implements Serializable{
 		this.IDPlanet= IDPlanet;
 	}
 
+	/**
+	 * allows to randomly generate the power of a ship between 1 and 3 excluded
+	 */
 	public void setRandPower() {
 		Random random = new Random();
 		int power = random.nextInt(3);
@@ -44,11 +47,6 @@ class SpaceShip extends Item  implements Serializable{
 		this.objective = o;
 	}
 
-	private static double squareDistance1(Point2D p1, Point2D p2) {
-		double dx = p1.getX() - p2.getX();
-		double dy = p1.getY() - p2.getY();
-		return dx * dx + dy * dy;
-	}
 
 	@Override
 	public boolean contains(Point2D p) {
@@ -69,6 +67,9 @@ class SpaceShip extends Item  implements Serializable{
 		return objective;
 	}
 
+	/**
+	 * to allow to move towards their target
+	 */
 	public void move() {
 
 		if (!objective.contains(this.center)) {
@@ -112,7 +113,13 @@ class SpaceShip extends Item  implements Serializable{
 		return "SpaceShip "+toStringColor(this.color)+" From "+this.IDPlanet;
 	}
 
-	public   Point2D.Double checkOverPlanet (double x,double y)
+	/**
+	 * avoids flying over the planets on your target planet
+	 * @param x position actuel of spaceship
+	 * @param y position actuel of spaceship
+	 * @return return a new Point to dodge other planet
+	 */
+	public  synchronized Point2D.Double checkOverPlanet (double x,double y)
 	{
 		for (Item item:collection) {
 			if(item instanceof Planet &&  !item.equals(objective) )
@@ -123,13 +130,13 @@ class SpaceShip extends Item  implements Serializable{
 
                     if( !item.contains(new Point2D.Double(x,y+getWidth())) && y+getWidth()<850 )
                     {
-                        //System.out.println("Dans x +y");
+
                         y+=getWidth()+5;
                     }
 
                     if (!item.contains(new Point2D.Double(x,y-getWidth())) && y-getWidth()<850)
                     {
-                        //System.out.println("Dans x -y");
+
                         y-=getWidth()+5;
                     }
 
@@ -147,7 +154,7 @@ class SpaceShip extends Item  implements Serializable{
 
                     if (!item.contains(new Point2D.Double(x-getWidth(),y)) || x-getWidth()<750)
                     {
-                        //System.out.println("Dans y : -x");
+
                         x-=getWidth()+5;
                     }
 
@@ -162,7 +169,11 @@ class SpaceShip extends Item  implements Serializable{
 	}
 
 
-
+	/**
+	 * allows to compare two vessels with their characteristics and compared to the equals of the parent class
+	 * @param o
+	 * @return true if it's the same else false
+	 */
 	@Override
 	public boolean equals(Object o) {
 		if(o==null)
